@@ -13,10 +13,13 @@ public class PlayerController : MonoBehaviour
     // Internal Properties
     [HideInInspector] public Vector2 movementVector;
     [HideInInspector] public Rigidbody thisRigidbody;
+    //animator
+    [HideInInspector] public Animator thisAnimator;
 
     private void Awake()
     {
         thisRigidbody = GetComponent<Rigidbody>();
+        thisAnimator = GetComponent<Animator>();
     }
 
     void Start()
@@ -38,6 +41,12 @@ public class PlayerController : MonoBehaviour
         float inputX = isRight ? 1 : isLeft ? -1 : 0;
         float inputY = isUp ? 1 : isDown ? -1 : 0;
         movementVector = new Vector2(inputX, inputY);
+
+        //velocity between 0 and 1
+        float velocity = thisRigidbody.velocity.magnitude;
+        float velocityRate = velocity / movementSpeed;
+
+        thisAnimator.SetFloat("fVelocity", velocityRate);
 
         stateMachine.Update();
     }

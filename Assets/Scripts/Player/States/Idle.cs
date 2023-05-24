@@ -14,14 +14,11 @@ public class Idle : State
     {
         base.Enter();
 
-        //Anything else
-        Debug.Log("Idle");
     }
 
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Saiu Idle");
     }
 
     public override void FixedUpdate()

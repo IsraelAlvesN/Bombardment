@@ -13,8 +13,6 @@ public class Walking : State
     {
         base.Enter();
 
-        //Anything else
-        Debug.Log("walking");
     }
 
     public override void Exit()
