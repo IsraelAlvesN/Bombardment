@@ -6,6 +6,7 @@ public class BombScript : MonoBehaviour
 {
     [SerializeField] private float explosionDelay = 5f;
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private GameObject woodBreakingPrefab;
     public float blastRadius = 6f;
     public int blastDamage = 12;
 
@@ -50,6 +51,8 @@ public class BombScript : MonoBehaviour
 
                     if (lifeScript.health <= 0)
                     {
+                        //wood braking
+                        Instantiate(woodBreakingPrefab, hitObject.transform.position, woodBreakingPrefab.transform.rotation);
                         Destroy(collider.gameObject);
                     }
                 }
