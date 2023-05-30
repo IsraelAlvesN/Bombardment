@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Public
-    public float movementSpeed = 500;
-    public float jumpPower = 10;
+    public float movementSpeed = 500f;
+    public float jumpPower = 10f;
+    public float jumpMovementFactor = 1f;
     // State machine
     [HideInInspector] public StateMachine stateMachine;
     [HideInInspector] public Idle idleState;
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     public void RotateBodyToFaceInput()
     {
+        if(movementVector.IsZero()) return;
         //Calculate Rotation
         Camera camera = Camera.main;
         float eulerY = camera.transform.eulerAngles.y;

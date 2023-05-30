@@ -20,11 +20,17 @@ public class Jump : State
         //reset variable
         hasJumped = false;
         cooldown = 0.5f;
+
+        //handle Animator
+        controller.thisAnimator.SetBool("bJumping", true);
 }
 
     public override void Exit()
     {
         base.Exit();
+
+        //handle Animator
+        controller.thisAnimator.SetBool("bJumping", false);
     }
 
     public override void Update()
@@ -55,6 +61,17 @@ public class Jump : State
             hasJumped = true;
             ApplyImpulse();
         }
+
+        //Create walk vector
+        Vector3 walkVector = new Vector3(controller.movementVector.x, 0, controller.movementVector.y);
+        walkVector = controller.GetForward() * walkVector;
+        walkVector *= controller.movementSpeed *controller.jumpMovementFactor;
+
+        //Apply input to character
+        controller.thisRigidbody.AddForce(walkVector, ForceMode.Force);
+
+        //to Rotate character
+        controller.RotateBodyToFaceInput();
     }
 
 
