@@ -25,6 +25,12 @@ public class Walking : State
     {
         base.Update();
 
+        if (controller.hasJumpInput)
+        {
+            //jumping
+            controller.stateMachine.ChangeState(controller.jumpingState);
+            return;
+        }
         if (controller.movementVector.IsZero())
         {
             //switch to idle

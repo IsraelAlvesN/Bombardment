@@ -36,6 +36,12 @@ public class Idle : State
     {
         base.Update();
 
+        if (controller.hasJumpInput)
+        {
+            //jumping
+            controller.stateMachine.ChangeState(controller.jumpingState);
+            return;
+        }
         if (!controller.movementVector.IsZero())
         {
             //walking

@@ -6,13 +6,18 @@ public class PlayerController : MonoBehaviour
 {
     // Public
     public float movementSpeed = 500;
+    public float jumpPower = 10;
     // State machine
     [HideInInspector] public StateMachine stateMachine;
     [HideInInspector] public Idle idleState;
     [HideInInspector] public Walking walkingState;
+    [HideInInspector] public Jump jumpingState;
     // Internal Properties
     [HideInInspector] public Vector2 movementVector;
+    [HideInInspector] public bool hasJumpInput;
+    [HideInInspector] public bool isGrounded;
     [HideInInspector] public Rigidbody thisRigidbody;
+    [HideInInspector] public Collider thisCollider;
     //animator
     [HideInInspector] public Animator thisAnimator;
 
@@ -20,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         thisRigidbody = GetComponent<Rigidbody>();
         thisAnimator = GetComponent<Animator>();
+        thisCollider = GetComponent<Collider>();
     }
 
     void Start()
@@ -28,6 +34,7 @@ public class PlayerController : MonoBehaviour
         stateMachine = new StateMachine();
         idleState = new Idle(this); //this is the player controller reference
         walkingState = new Walking(this);
+        jumpingState = new Jump(this);
         stateMachine.ChangeState(idleState);
     }
 
@@ -41,10 +48,14 @@ public class PlayerController : MonoBehaviour
         float inputX = isRight ? 1 : isLeft ? -1 : 0;
         float inputY = isUp ? 1 : isDown ? -1 : 0;
         movementVector = new Vector2(inputX, inputY);
+        hasJumpInput = Input.GetKey(KeyCode.Space);
 
         //velocity between 0 and 1
         float velocity = thisRigidbody.velocity.magnitude;
         float velocityRate = velocity / movementSpeed;
+
+        //detect ground
+        DetectGround();
 
         thisAnimator.SetFloat("fVelocity", velocityRate);
 
@@ -84,8 +95,45 @@ public class PlayerController : MonoBehaviour
         thisRigidbody.MoveRotation(newRotation);
     }
 
-    void OnGUI()
+    private void DetectGround()
     {
-        GUI.Label(new Rect(5, 5, 200, 50), stateMachine.currentStateName);
+        //reset flag
+        isGrounded = false;
+
+        Vector3 origin = transform.position;
+        Vector3 direction = Vector3.down;
+        Bounds bounds = thisCollider.bounds;
+        float radius = bounds.size.x * 0.33f;
+        float maxDistance = bounds.size.y * 0.25f;
+        if(Physics.SphereCast(origin, radius, direction, out var hitInfo, maxDistance))
+        {
+            GameObject hitObject = hitInfo.transform.gameObject;
+            if (hitObject.CompareTag("Platform"))
+            {
+                isGrounded = true;
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 origin = transform.position;
+        Vector3 direction = Vector3.down;
+        Bounds bounds = thisCollider.bounds;
+        float radius = bounds.size.x * 0.33f;
+        float maxDistance = bounds.size.y * 0.25f;
+
+        //Draw ray
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(new Ray(origin, direction * maxDistance));
+
+        //draw origin
+        Gizmos.color = Color.gray;
+        Gizmos.DrawSphere(origin, 0.1f);
+
+        //Draw sphere
+        Vector3 spherePosition = direction * maxDistance + origin;
+        Gizmos.color = isGrounded ? Color.green : Color.cyan;
+        Gizmos.DrawSphere(spherePosition, radius);
     }
 }
