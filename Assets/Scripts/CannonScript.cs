@@ -21,6 +21,8 @@ public class CannonScript : MonoBehaviour
 
     void Update()
     {
+        //check gameOver
+        if (GameManager.Instance.isGameOver) return;
 
         // Update cooldown
         cooldown -= Time.deltaTime;

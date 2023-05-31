@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Idle idleState;
     [HideInInspector] public Walking walkingState;
     [HideInInspector] public Jump jumpingState;
+    [HideInInspector] public Dead deadState;
     // Internal Properties
     [HideInInspector] public Vector2 movementVector;
     [HideInInspector] public bool hasJumpInput;
@@ -36,11 +37,20 @@ public class PlayerController : MonoBehaviour
         idleState = new Idle(this); //this is the player controller reference
         walkingState = new Walking(this);
         jumpingState = new Jump(this);
+        deadState = new Dead(this);
         stateMachine.ChangeState(idleState);
     }
 
     void Update()
     {
+        //check gameOver
+        if (GameManager.Instance.isGameOver)
+        {
+            if(stateMachine.currentStateName != deadState.name){
+                stateMachine.ChangeState(deadState);
+            }
+        }
+
         //create input vector
         bool isUp = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         bool isDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);

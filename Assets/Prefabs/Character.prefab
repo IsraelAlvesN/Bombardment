@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 8662176241476705205}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,9 +295,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399cb13389df69e459ad61cdca69729f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
+  movementSpeed: 20
+  jumpPower: 2
+  jumpMovementFactor: 0.25
   movementVector: {x: 0, y: 0}
+  hasJumpInput: 0
+  isGrounded: 0
   thisRigidbody: {fileID: 0}
+  thisCollider: {fileID: 0}
   thisAnimator: {fileID: 0}
 --- !u!1 &709293466539621551
 GameObject:
