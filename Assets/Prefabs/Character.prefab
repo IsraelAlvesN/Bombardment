@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 8662176241476705206}
   - component: {fileID: 8662176241476705207}
   - component: {fileID: 8662176241476705205}
+  - component: {fileID: -4451920092643947274}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -295,15 +296,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399cb13389df69e459ad61cdca69729f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 20
-  jumpPower: 2
-  jumpMovementFactor: 0.25
+  movementSpeed: 15
+  jumpPower: 2.5
+  jumpMovementFactor: 0.1
   movementVector: {x: 0, y: 0}
   hasJumpInput: 0
   isGrounded: 0
   thisRigidbody: {fileID: 0}
   thisCollider: {fileID: 0}
   thisAnimator: {fileID: 0}
+--- !u!114 &-4451920092643947274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693163697974330470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d87387fb5636f44b34df5da52a70da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  underWaterDrag: 3
+  underWaterAngularDrag: 1
+  airDrag: 0
+  airAngularDrag: 0.05
+  bouyancyForce: 40
 --- !u!1 &709293466539621551
 GameObject:
   m_ObjectHideFlags: 0

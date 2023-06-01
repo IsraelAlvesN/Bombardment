@@ -16,7 +16,7 @@ public class OceanScript : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         GameObject otherObject = other.gameObject;
         if (otherObject.CompareTag("Player"))
